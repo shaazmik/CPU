@@ -1,4 +1,5 @@
-PUSH 5;dwadawdwadw
-IN
-OUt
+PUSH 1236 ; dwadawdwadw
+PUSH 1337
+OUT
 POP
+HLT

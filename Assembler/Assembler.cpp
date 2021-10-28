@@ -3,7 +3,28 @@
 #include "..\libr\Stack.h"
 
 
-#define DEF_CMD_(number, name, agr, code)    
+#define DEF_CMD_(number, name, agr, code)                                        \
+        if (strcmp(str, #name) == 0)                                             \
+        {                                                                        \
+            code[ip++] = CMD_##name;                                             \
+                                                                                 \
+            for (int i = 0; i < argc; i++)                                       \
+            {                                                                    \
+                #ifdef Int_t                                                     \
+                    sscanf(text_struct->linii[i].start_line, "%d", &code[ip]);   \
+                #endif                                                           \
+                                                                                 \
+                #ifdef Double_t                                                  \
+                                                                                 \
+                    sscanf(text_struct->linii[i].start_line, "%lg", &double_var);\
+                    *(double*)(code + ip) = double_var;                          \
+                #endif                                                           \
+                                                                                 \
+                ip += sizeof(type_array);                                        \
+            }                                                                    \
+        }                                                                        \
+        else                                                                     \                                                                        \
+
         
 
 
@@ -66,6 +87,7 @@ int compilation(struct Text* text_struct, char* code)
     int len_command = 0;
     int argc = 1;
     size_t ip = 0;
+    double double_var = 0;
 
     for (int i = 0; i < text_struct->quantity_lines; i++)
     {
@@ -77,23 +99,10 @@ int compilation(struct Text* text_struct, char* code)
 
         text_struct->linii[i].start_line += len_command + 1;
 
-        if (strcmp(str, "PUSH") == 0)
-        {
-            code[ip++] = CMD_PUSH; 
+        #include "Commands.h"
 
-            for (int i = 0; i < argc; i++)
-            {
-                #ifdef Int_t
-                    sscanf(text_struct->linii[i].start_line, "%d", &code[ip]);
-                #endif
+        /*else*/ printf("Error!");
 
-                #ifdef Double_t
-                    sscanf(text_struct->linii[i].start_line, "%lg", &code[ip]);
-                #endif 
-
-                ip += sizeof(type_array);
-            }
-        }
     }
     return 0;
 }
@@ -122,15 +131,15 @@ int main()
 
     struct asm_file machine_code = {};
 
-    machine_code.code = (char*)calloc(text_struct.quantity_lines * Max_argc_cmd, sizeof(char));
+    int len_of_machine_code = text_struct.quantity_lines * Max_argc_cmd;
+
+    machine_code.code = (char*)calloc(len_of_machine_code, sizeof(char));
 
     compilation(&text_struct, machine_code.code);
 
     FILE* ass = fopen("../assembler.bin", "wb");
 
-    fprintf(ass, "%s", machine_code.code);
-
-    fclose(ass);
+    output_machine_code(machine_code.code, ass);
 
     return 0;    
 }

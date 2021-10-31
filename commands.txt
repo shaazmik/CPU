@@ -1,5 +1,7 @@
-PUSH 1236 ; dwadawdwadw
-PUSH 1337
-OUT
-POP
+PUSH ax
+PUSH dx
+SHOW
+SHOW
+PUSH 11
+push [13]
 HLT

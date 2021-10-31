@@ -7,7 +7,7 @@
 
 #ifdef Int_t
     void dump_value  (int value)                {printf ("%d ", value);     }
-    void fdump_value (int value, FILE* log)    {fprintf (log, "%d", value); }
+    void fdump_value (int value, FILE* log)     {fprintf (log, "%d", value); }
 
 #endif
 
@@ -95,7 +95,7 @@ void fprint_stack(struct pstack_info* pstack, FILE* log)
 }
 
 int stack_pushka(struct pstack_info* pstack, type_array new_element)
-{
+{       
     check_nullptr(pstack);
 
     verification_stack(pstack);

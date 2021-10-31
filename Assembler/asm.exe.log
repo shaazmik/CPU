@@ -6,17 +6,14 @@ TXLib предупреждает:
 
 ВНЕЗАПНО: Нарушение доступа к памяти.
 
-#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x00000000004414D0 в функции __mingw_sformat(). Попытка записать данные по адресу NULL в модуле C:\Users\Daniil\Documents\Processor\Assembler\asm.exe. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x00007FF9DB7BD814 в функции strncpy(). Попытка записать данные по адресу 0x00000000006F0000 в модуле C:\Windows\System32\msvcrt.dll. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
 
-#1: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400], Instance: 0x00000000004A8030 (64-bit), Flags: Cmdre0, Thread: 0x2848 (Main). 
+#1: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400], Instance: 0x00000000004AA030 (64-bit), Flags: Cmdre0, Thread: 0xA4C (Main). 
 
 --------------------------------------------------
 Стек вызовов:
 
-# 0 0x00000000004414D0 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: __mingw_sformat()
-# 2 0x000000000044B5E7 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: sscanf()
-# 3 0x000000000041DD43 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: compilation()
-# 4 0x000000000041DE45 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: main()
+# 0 0x00007FF9DB7BD814 in C:\Windows\System32\msvcrt.dll: strncpy()
 
 --------------------------------------------------
 Developed with:
@@ -27,48 +24,8 @@ Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
 See license on: http://txlib.ru
 
 TXLib file:	C:\coder1337\TX\TXLib.h
-Compiled:	Oct 24 2021 19:27:24, GNU g++ 8.1.0, std=201402L, MinGW-W64 Runtime 6.0.0 (alpha - rev. 0) 0000-00-00, 64-bit, Debug
-Started:	Oct 24 2021 19:27:38
-
-Run file:	C:\Users\Daniil\Documents\Processor\Assembler\asm.exe
-Directory:	C:\Users\Daniil\Documents\Processor\Assembler
-
---------------------------------------------------
-
---------------------------------------------------
-TXLib соболезнует...
-
-Программа: C:\Users\Daniil\Documents\Processor\Assembler\asm.exe,
-
-ВНЕЗАПНО: signal (11, 0x00): SIGSEGV: Доступ по неверному указателю. Ставьте ассерты! 
-
-Нарушение доступа к памяти.
-
-#1: Исключение EXCEPTION_ACCESS_VIOLATION (0xC0000005) при выполнении кода по адресу 0x00000000004414D0 в функции __mingw_sformat(). Попытка записать данные по адресу NULL в модуле C:\Users\Daniil\Documents\Processor\Assembler\asm.exe. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
-
-С помощью функции signal() вы можете сами обработать эту ошибку.
-
-#2: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400], Instance: 0x00000000004A8030 (64-bit), Flags: Cmdre0, Thread: 0x2848 (Main). 
-
---------------------------------------------------
-Стек вызовов:
-
-# 0 0x00000000004414D0 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: __mingw_sformat()
-# 2 0x000000000044B5E7 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: sscanf()
-# 3 0x000000000041DD43 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: compilation()
-# 4 0x000000000041DE45 in C:\Users\Daniil\Documents\Processor\Assembler\asm.exe: main()
-
---------------------------------------------------
-Developed with:
-
-The Dumb Artist Library (TX Library)
-TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400]
-Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
-See license on: http://txlib.ru
-
-TXLib file:	C:\coder1337\TX\TXLib.h
-Compiled:	Oct 24 2021 19:27:24, GNU g++ 8.1.0, std=201402L, MinGW-W64 Runtime 6.0.0 (alpha - rev. 0) 0000-00-00, 64-bit, Debug
-Started:	Oct 24 2021 19:27:38
+Compiled:	Oct 31 2021 02:28:29, GNU g++ 8.1.0, std=201402L, MinGW-W64 Runtime 6.0.0 (alpha - rev. 0) 0000-00-00, 64-bit, Debug
+Started:	Oct 31 2021 02:28:33
 
 Run file:	C:\Users\Daniil\Documents\Processor\Assembler\asm.exe
 Directory:	C:\Users\Daniil\Documents\Processor\Assembler

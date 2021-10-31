@@ -3,5 +3,5 @@ PUSH dx
 SHOW
 SHOW
 PUSH 11
-push [13]
+PUSH [13]
 HLT

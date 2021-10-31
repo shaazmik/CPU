@@ -96,19 +96,19 @@ int len_name_of_command(char* str)
 
     char* pointer_end = strchr(str, ' ');
 
-    size_t len_name_of_command = 0;
+    size_t len_of_command = 0;
 
     if (pointer_end != nullptr) 
     {
-        len_name_of_command =  (pointer_end - str);
+        len_of_command =  (pointer_end - str);
     }
     else
     {
         pointer_end = strchr(str, '\0');
-        len_name_of_command =  (pointer_end - str);
+        len_of_command =  (pointer_end - str);
     }
 
-    return EXIT;
+    return len_of_command;
 }
 
 type_array check_RAM(char* start_of_line)
@@ -166,25 +166,25 @@ int check_register(char* start_of_line)
 
     if (strcmp(arg_line, "ax") == 0)
     {
-        arg = 0x01;
+        arg = 0x00;
     }
     else
     {
         if (strcmp(arg_line, "bx") == 0)
         {
-            arg = 0x02;
+            arg = 0x01;
         }
         else
         {
             if (strcmp(arg_line, "cx") == 0)
             {
-                arg = 0x03;
+                arg = 0x02;
             }
             else 
             {
                 if (strcmp(arg_line, "dx") == 0)
                 {
-                    arg = 0x04;
+                    arg = 0x03;
                 }
                 else
                 {
@@ -193,6 +193,7 @@ int check_register(char* start_of_line)
             }
         }
     }
+
     return arg;
 }
 
@@ -238,6 +239,7 @@ int compilation(struct Text* text_struct, char* code)
     char str[100] = "";
     int len_command = 0;
     size_t ip = 0;
+    size_t count_of_space = 0;
 
     type_array arg_var = 0;
 
@@ -248,8 +250,6 @@ int compilation(struct Text* text_struct, char* code)
         strncpy(str, text_struct->linii[j].start_line, len_command);
 
         str[len_command] = '\0';
-
-        //sscanf с _%n чтобы задетектить все пробелы
 
         text_struct->linii[j].start_line += len_command + 1;
 
@@ -309,7 +309,6 @@ int main()
 
     FILE* ass = fopen("../assembler.bin", "wb");
 
-    
     write_machine_code(&machine_code, ass); 
 
     fclose(ass);

@@ -66,13 +66,8 @@ void input_code_from_file(FILE* ass, struct CPU* CPPU)
 int just_do_it(struct CPU* CPPU)
 {
    int ip = 0;
-   #ifdef Int_t 
-      int argument = 0;
-   #endif
 
-   #ifdef Double_t
-      double argument = 0;
-   #endif
+   type_array argument = 0;
 
    while (CPPU->code[ip] != CMD_HLT)
    {
@@ -81,6 +76,7 @@ int just_do_it(struct CPU* CPPU)
          #include "../Commands.h"
       }
    }
+   printf("Program is completed.\n\n");
    return 0;
 }
 

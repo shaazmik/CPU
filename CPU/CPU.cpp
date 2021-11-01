@@ -9,7 +9,7 @@
              ip += 1 + arg * sizeof(type_array);          \
              break;                                       \
 
-
+//исправить переход т.к. не все аргументы sizeof(type_array); прописать их в commands h
 #endif
 
 struct CPU

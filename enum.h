@@ -14,3 +14,8 @@ enum commands
 const char Version_of_programm = 3;
 
 const int Size_of_stack = 20;
+
+
+
+
+

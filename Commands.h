@@ -44,17 +44,21 @@ DEF_CMD_(0x23, POP_MEM, 1,
 }
 )
 
-DEF_CMD_(0x07, SHOW, 0, 
+DEF_CMD_(0x08, ADD, 0,
 {
-    #ifdef Int_t
-    printf("%d\n",stack_popka( &(CPPU->stk) ) );
-    #endif
 
-    #ifdef Double_t
-    printf("%.14lf\n", stack_popka( &(CPPU->stk) ) );
-    #endif
 }
 )
+
+
+DEF_CMD_(0x07, SHOW, 0, 
+{
+    printf(type_array_format,stack_popka( &(CPPU->stk) ) ); 
+    printf("\n");
+}
+)
+
+
 
 
 DEF_CMD_(0x0F, HLT, 0, 

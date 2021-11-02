@@ -10,69 +10,70 @@ enum errors_of_assembler
 };
 
 
-#ifdef Int_t            
 
-#define type_array_format "%d"
-
-#endif
-
-#ifdef Double_t
-
-#define type_array_format "%.14lf"
-
-#endif
-
-#define DEF_CMD_(number, name, arg, code_func)                                                                  \
-        if (strcmp(cmd, #name) == 0)                                                                            \
-        {                                                                                                       \
-            code[ip++] = CMD_##name;                                                                            \
-                                                                                                                \
-            for (int i = 0; i < arg; i++)                                                                       \
-            {                                                                                                   \
-                arg_var = check_RAM(text_struct->linii[j].start_line);                                          \
-                                                                                                                \
-                if (arg_var != WRONG_ARGUMENT)                                                                  \
-                {                                                                                               \
-                    if (i == 0)                                                                                 \
-                    {                                                                                           \
-                        code[ip - 1] = CMD_##name + 0x02;                                                       \
-                    }                                                                                           \
-                    *(type_array*)(code + ip) = arg_var;                                                        \
-                     ip += sizeof(type_array);                                                                  \
-                    text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);         \
-                                                                                                                \
-                }                                                                                               \
-                else                                                                                            \
-                {                                                                                               \
-                    arg_var = check_register(text_struct->linii[j].start_line);                                 \
-                                                                                                                \
-                    if (arg_var != WRONG_ARGUMENT)                                                              \
-                    {                                                                                           \
-                    if (i == 0)                                                                                 \
-                    {                                                                                           \
-                        code[ip - 1] = CMD_##name + 0x01;                                                       \
-                    }                                                                                           \
-                        code[ip++] = arg_var;                                                                   \
-                        text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);     \
-                    }                                                                                           \
-                    else                                                                                        \
-                    {                                                                                           \
-                        if (sscanf(text_struct->linii[j].start_line, type_array_format, &arg_var) != 0)         \
-                        {                                                                                       \
-                            *(type_array*)(code + ip) = arg_var;                                                \
-                            ip += sizeof(type_array);                                                           \
-                            text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line); \
-                        }                                                                                       \
-                        else                                                                                    \
-                        {                                                                                       \
-                                printf("Wrong argument of command!\n\n");                                       \
-                                return WRONG_ARGUMENT;                                                          \
-                        }                                                                                       \
-                    }                                                                                           \
-                }                                                                                               \
-            }                                                                                                   \
-        }                                                                                                       \
-        else                                                                                                    \
+#define DEF_CMD_(number, name, arg, code_func)                                                                      \
+        if (strcmp(cmd, #name) == 0)                                                                                \
+        {                                                                                                           \
+            code[ip++] = CMD_##name;                                                                                \
+                                                                                                                    \
+            for (int i = 0; i < arg; i++)                                                                           \
+            {                                                                                                       \
+                arg_var = check_RAM(text_struct->linii[j].start_line);                                              \
+                                                                                                                    \
+                if (arg_var != WRONG_ARGUMENT)                                                                      \
+                {                                                                                                   \
+                    if (i == 0)                                                                                     \
+                    {                                                                                               \
+                        code[ip - 1] = CMD_##name + 0x02;                                                           \
+                    }                                                                                               \
+                    *(type_array*)(code + ip) = arg_var;                                                            \
+                     ip += sizeof(type_array);                                                                      \
+                    text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);             \
+                }                                                                                                   \
+                else                                                                                                \
+                {                                                                                                   \
+                    arg_var = check_register(text_struct->linii[j].start_line);                                     \
+                                                                                                                    \
+                    if (arg_var != WRONG_ARGUMENT)                                                                  \
+                    {                                                                                               \
+                    if (i == 0)                                                                                     \
+                    {                                                                                               \
+                        code[ip - 1] = CMD_##name + 0x01;                                                           \
+                    }                                                                                               \
+                        code[ip++] = arg_var;                                                                       \
+                        text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);         \
+                    }                                                                                               \
+                    else                                                                                            \
+                    {                                                                                               \
+                        if (sscanf(text_struct->linii[j].start_line, type_array_format, &arg_var) != 0)             \
+                        {                                                                                           \
+                            *(type_array*)(code + ip) = arg_var;                                                    \
+                            ip += sizeof(type_array);                                                               \
+                            text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);     \
+                        }                                                                                           \
+                        else                                                                                        \
+                        {   arg_var = check_jmp_pointer(text_struct->linii[j].start_line);                          \
+                            if (arg_var != WRONG_ARGUMENT)                                                          \
+                            {                                                                                       \
+                                if (i == 0)                                                                         \
+                                {                                                                                   \
+                                    code[ip - 1] = CMD_##name + 0x03;                                               \
+                                }                                                                                   \
+                                *(int*)(code + ip) = arg_var;                                                       \
+                                ip += sizeof(int);                                                                  \
+                                text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line); \
+                            }                                                                                       \
+                            else                                                                                    \
+                            {                                                                                       \
+                                printf("Wrong argument of command!\n\n");                                           \
+                                return WRONG_ARGUMENT;                                                              \
+                            }                                                                                       \
+                        }                                                                                           \
+                    }                                                                                               \
+                }                                                                                                   \
+            }                                                                                                       \
+        }                                                                                                           \
+        else                                                                                                        \
 
  
                                                                   
@@ -87,6 +88,8 @@ struct asm_file
     int len_of_code = 0;
 
     char* code;
+
+    int* lbl;
 };
 
 
@@ -262,7 +265,26 @@ void get_line_cmd(char* str, char* start_line_of_command)
     
 }
 
-int compilation(struct Text* text_struct, char* code)
+int check_jmp_pointer(char* cmd)
+{
+    int symbol_pointer = 0;
+    int jmp_num = 0; 
+
+    if (cmd[symbol_pointer++] == ':')
+    {
+        if (sscanf(cmd + symbol_pointer, "%d", &jmp_num) != 0)
+        {
+            return jmp_num;
+        }
+        else
+        {
+            return WRONG_ARGUMENT;
+        }
+    }
+    return WRONG_ARGUMENT;
+}
+
+int compilation(struct Text* text_struct, char* code, int* label)
 {
     assert(text_struct != nullptr);
     assert(code != nullptr);
@@ -277,17 +299,26 @@ int compilation(struct Text* text_struct, char* code)
     {
         get_line_cmd(cmd, text_struct->linii[j].start_line);
 
-        len_cmd = strlen(cmd);
+        arg_var = check_jmp_pointer(cmd);
 
-        sscanf(text_struct->linii[j].start_line, " %n", &count_of_space);
+        if (arg_var != WRONG_ARGUMENT)
+        {
+            label[arg_var] = ip;
+        }
+        else
+        {
+            len_cmd = strlen(cmd);
 
-        text_struct->linii[j].start_line += count_of_space + len_cmd;
+            sscanf(text_struct->linii[j].start_line, " %n", &count_of_space);
 
-        text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);
+            text_struct->linii[j].start_line += count_of_space + len_cmd;
 
-        #include "..\Commands.h"
+            text_struct->linii[j].start_line = next_argument(text_struct->linii[j].start_line);
 
-        /*else*/ printf("Error!\n");
+            #include "..\Commands.h"
+
+            /*else*/ printf( "Error! Wrong command on %d line\n", j + 1 );
+        }
 
     }
     return EXIT;
@@ -317,6 +348,8 @@ void input_machine_struct(struct asm_file* machine_code, struct Text* text_struc
     machine_code->len_of_code = text_struct->quantity_lines * Max_argc_cmd;
 
     machine_code->code = (char*)calloc(machine_code->len_of_code, sizeof(char));
+
+    machine_code->lbl = (int*)calloc(text_struct->quantity_lines, sizeof(int));
 }
 
 
@@ -342,7 +375,7 @@ int main()
 
     input_machine_struct(&machine_code, &text_struct);
 
-    compilation(&text_struct, machine_code.code);
+    compilation(&text_struct, machine_code.code, machine_code.lbl);
 
     FILE* ass = fopen("../assembler.bin", "wb");
 

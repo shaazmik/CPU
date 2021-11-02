@@ -1,16 +1,13 @@
 #include "..\libr\Stack.h"
 #include "..\enum.h"
 
-#ifdef Int_t
 
 #define DEF_CMD_(number, name, arg, code_func)            \
         case CMD_##name:                                  \
-             code                                         \
-             ip += 1 + arg * sizeof(type_array);          \
+             code_func;                                   \
              break;                                       \
 
-//исправить переход т.к. не все аргументы sizeof(type_array); прописать их в commands h
-#endif
+
 
 struct CPU
 {
@@ -66,8 +63,6 @@ void input_code_from_file(FILE* ass, struct CPU* CPPU)
 int just_do_it(struct CPU* CPPU)
 {
    int ip = 0;
-
-   type_array argument = 0;
 
    while (CPPU->code[ip] != CMD_HLT)
    {

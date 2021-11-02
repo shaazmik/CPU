@@ -93,6 +93,8 @@
 
 typedef double type_array;
 
+#define type_array_format "%.14lf"
+
 #endif
 
 //========================================
@@ -100,6 +102,8 @@ typedef double type_array;
 #ifdef Int_t
 
 typedef int type_array;
+
+#define type_array_format "%d"
 
 #endif
 

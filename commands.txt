@@ -1,12 +1,10 @@
-PUSH 15
-PUSH 10
-JMP :1
-PUSH 11
-POP  ax
-SUB
-PUSH 3
-:1
-SUB
+PUSH 1337
 SHOW
-JMP 4
+:fuck
+    PUSH 29
+    PUSH 132
+    SHOW
+    PUSH 100
+    MUL
+JMP :fuck
 HLT

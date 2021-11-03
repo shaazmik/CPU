@@ -2,13 +2,6 @@
 #include "..\enum.h"
 
 
-#define DEF_CMD_(number, name, arg, code_func)            \
-        case CMD_##name:                                  \
-             code_func;                                   \
-             break;                                       \
-
-
-
 struct CPU
 {
    type_array register_cpu[4] = {};
@@ -19,7 +12,7 @@ struct CPU
 
    struct pstack_info stk = {};
 
-   char* code;
+   char* code = nullptr;
 
 };
 
@@ -68,7 +61,19 @@ int just_do_it(struct CPU* CPPU)
    {
       switch(CPPU->code[ip])
       {
+
+         #define DEF_CMD_(number, name, arg, code_func)       \
+            case CMD_##name:                                  \
+               code_func;                                     \
+               break;                                         \
+
+
          #include "../Commands.h"
+
+         #undef DEF_CMD_ 
+
+         default:
+            printf("Something went wrong\n");
       }
    }
    printf("Program is completed.\n\n");
@@ -85,6 +90,7 @@ int main()
 
    if  ( !check_asm_file(ass) ) 
    {
+      stack_destructor(&(CPPU.stk));
       return 0;
    }
 

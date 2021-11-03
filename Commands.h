@@ -140,9 +140,8 @@ DEF_CMD_(0x0D, JMP_POINTER, 1,
 )
 
 
-DEF_CMD_(0x0F, HLT, 0, 
+DEF_CMD_(0xF1, HLT, 0, 
 {
     printf("The program is completed\n\n.");
-    
 }
 )

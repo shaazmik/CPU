@@ -47,6 +47,8 @@ void input_code_from_file(FILE* ass, struct CPU* CPPU)
 {
    fscanf(ass,"%d", &(CPPU->len_of_code));
 
+  // printf("%d", CPPU->len_of_code);
+
    CPPU->code = (char*)calloc(CPPU->len_of_code, sizeof(char));
 
    fread(CPPU->code, sizeof(char), CPPU->len_of_code, ass);
@@ -57,7 +59,7 @@ int just_do_it(struct CPU* CPPU)
 {
    int ip = 0;
 
-   while (CPPU->code[ip] != CMD_HLT)
+   while (*(char*)(&CPPU->code[ip]) != CMD_HLT)
    {
       switch(CPPU->code[ip])
       {
@@ -70,10 +72,12 @@ int just_do_it(struct CPU* CPPU)
 
          #include "../Commands.h"
 
-         #undef DEF_CMD_ 
-
          default:
             printf("Something went wrong\n");
+            break;
+            
+         #undef DEF_CMD_ 
+
       }
    }
    printf("Program is completed.\n\n");
@@ -99,5 +103,7 @@ int main()
    fclose(ass);
 
    just_do_it(&CPPU);
+
+
 
 }

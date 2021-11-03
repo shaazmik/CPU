@@ -115,32 +115,54 @@ DEF_CMD_(0x16, SHOW, 0,
 }
 )
 
+DEF_CMD_(0x17, IN, 0,
+{
+
+}
+)
+
 DEF_CMD_(0x0A, JMP, 1, 
 {
-    printf("LELW");
+    int jmp_ip = *(int*)( &(CPPU->code[ip + 1]) );
+    ip = jmp_ip;
 }
 )
 
 DEF_CMD_(0x0B, JMP_X, 1, 
 {
-    printf("LELW");
+    int jmp_ip = CPPU->code[ip + 1];
+    ip = CPPU->register_cpu[jmp_ip];
 }
 )
 
 DEF_CMD_(0x0C, JMP_MEM, 1, 
 {
-    printf("LELW");
+    int jmp_ip = *(int*)( &(CPPU->code[ip + 1]) );
+    ip = CPPU->RAM[jmp_ip];
 }
 )
 
 DEF_CMD_(0x0D, JMP_POINTER, 1, 
 {
-    printf("LELW");
+    int jmp_ip = *(int*)( &(CPPU->code[ip + 1]) );
+    ip = jmp_ip;
 }
 )
 
 
-DEF_CMD_(0xF1, HLT, 0, 
+DEF_CMD_(0xDA, CALL, 1,
+{
+    printf("KEKKKK");
+}
+)
+
+DEF_CMD_(0xAD, RET, 0,
+{
+    printf("KKKKK");
+}
+)
+
+DEF_CMD_(0x1F, HLT, 0, 
 {
     printf("The program is completed\n\n.");
 }

@@ -85,7 +85,7 @@
 
 //!**
 
-#define Int_t
+#define Double_t
 
 //========================================
 
@@ -93,7 +93,7 @@
 
 typedef double type_array;
 
-#define type_array_format "%.14lf"
+#define type_array_format "%lg"
 
 #endif
 

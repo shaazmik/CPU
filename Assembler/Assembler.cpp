@@ -18,29 +18,29 @@ enum errors_of_assembler
                                                                                                                     \
             for (int i = 0; i < argc; i++)                                                                          \
             {                                                                                                       \
-                arg_var = check_RAM(line_cmd);                                                                      \
+                check_var = check_RAM(line_cmd);                                                                    \
                                                                                                                     \
-                if (arg_var != WRONG_ARGUMENT)                                                                      \
+                if (check_var != WRONG_ARGUMENT)                                                                    \
                 {                                                                                                   \
                     if (i == 0)                                                                                     \
                     {                                                                                               \
                         machine->code[ip - 1] = CMD_##name + 0x02;                                                  \
                     }                                                                                               \
-                    *(type_array*)(machine->code + ip) = arg_var;                                                   \
+                    *(type_array*)(machine->code + ip) = check_var;                                                 \
                     ip += sizeof(type_array);                                                                       \
                     line_cmd = next_argument(line_cmd);                                                             \
                 }                                                                                                   \
                 else                                                                                                \
                 {                                                                                                   \
-                    arg_var = check_register(line_cmd);                                                             \
+                    check_var = check_register(line_cmd);                                                           \
                                                                                                                     \
-                    if (arg_var != WRONG_ARGUMENT)                                                                  \
+                    if (check_var != WRONG_ARGUMENT)                                                                \
                     {                                                                                               \
                         if (i == 0)                                                                                 \
                         {                                                                                           \
                             machine->code[ip - 1] = CMD_##name + 0x01;                                              \
                         }                                                                                           \
-                        machine->code[ip++] = arg_var;                                                              \
+                        machine->code[ip++] = check_var;                                                            \
                         line_cmd = next_argument(line_cmd);                                                         \
                     }                                                                                               \
                     else                                                                                            \
@@ -53,14 +53,14 @@ enum errors_of_assembler
                         }                                                                                           \
                         else                                                                                        \
                         {                                                                                           \
-                            arg_var = hash_jmp_pointer(line_cmd);                                                   \
-                            if (arg_var != WRONG_ARGUMENT)                                                          \
+                            check_var = hash_jmp_pointer(line_cmd);                                                 \
+                            if (check_var != WRONG_ARGUMENT)                                                        \
                             {                                                                                       \
                                 if (i == 0)                                                                         \
                                 {                                                                                   \
                                     machine->code[ip - 1] = CMD_##name + 0x03;                                      \
                                 }                                                                                   \
-                                hash_ip = find_hash_name(&(machine->cmd_pointer), arg_var);                         \
+                                hash_ip = find_hash_name(&(machine->cmd_pointer), check_var);                       \
                                 *(int*)(machine->code + ip) = hash_ip;                                              \
                                 ip += sizeof(int);                                                                  \
                                 line_cmd = next_argument(line_cmd);                                                 \
@@ -311,16 +311,6 @@ int hash_jmp_pointer(char* cmd)
 
         int len_jmp_name = jmp_name_end - jmp_name;
 
-
-
-       // char* tmp = (char*)calloc(len_jmp_name, sizeof(char));
-
-       // strncpy(tmp, jmp_name, len_jmp_name);
-
-       // uint32_t hash_word = dl_new_hash(tmp);
-
-       // free(tmp);
-
         return dl_new_hash(jmp_name, len_jmp_name);
     }
 
@@ -365,9 +355,11 @@ int compilation(struct Text* text_struct, struct asm_file* machine)
 
     size_t count_of_space = 0;
     int len_cmd = 0;
-    uint32_t arg_var = 0;
-    int hash_ip = 0;
 
+    uint32_t check_var = 0;
+    type_array arg_var = 0;
+
+    int hash_ip = 0;
     int ip = 0;
 
     for (int j = 0; j < text_struct->quantity_lines; j++)
@@ -376,11 +368,11 @@ int compilation(struct Text* text_struct, struct asm_file* machine)
 
         get_line_cmd(cmd, line_cmd);
 
-        arg_var = hash_jmp_pointer(cmd);   //7c96fd0e
+        check_var = hash_jmp_pointer(cmd);   //7c96fd0e
 
-        if (arg_var != WRONG_ARGUMENT)
+        if (check_var != WRONG_ARGUMENT)
         {
-            insert_hash_name( &(machine->cmd_pointer), arg_var, ip);
+            insert_hash_name( &(machine->cmd_pointer), check_var, ip);
         }
         else
         {                        
@@ -434,6 +426,24 @@ void input_machine_struct(struct asm_file* machine_code, struct Text* text_struc
     machine_code->code = (char*)calloc(machine_code->len_of_code, sizeof(char));
 }
 
+void free_asm_struct(struct asm_file* machine)
+{
+    free(machine->code);
+}
+
+int check_hash_name(struct hash_name* cmd_pointer)
+{
+    for (int i = 0; i < cmd_pointer->count_of_pointer; i++)
+    {
+        if (cmd_pointer->pointer_info[i].ip_cmd == -1 )
+        {
+            printf("LOST POINTER IN JMP\n");
+            return EXIT;
+        }
+    }
+
+    return OK;
+}
 
 int main()
 {
@@ -461,6 +471,9 @@ int main()
 
     compilation(&text_struct, &machine_code);
 
+    if (check_hash_name( &(machine_code.cmd_pointer) ) == EXIT )
+        return EXIT;
+
     FILE* ass = fopen("../assembler.bin", "wb");
 
     write_machine_code(&machine_code, ass); 
@@ -469,7 +482,7 @@ int main()
 
     free_memory(&text_struct);
 
-    //free структуру асм файла
+    free_asm_struct(&machine_code);
 
     return EXIT;    
 }

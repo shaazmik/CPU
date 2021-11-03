@@ -1,10 +1,11 @@
-PUSH 1337
+PUSH 1234567.3
 SHOW
-:fuck
-    PUSH 29
-    PUSH 132
+    PUSH 2
+    PUSH 2.5
+JMP :fuck
     SHOW
     PUSH 100
-    MUL
-JMP :fuck
+    :fuck
+MUL
+SHOW
 HLT

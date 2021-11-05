@@ -1,33 +1,61 @@
-IN ;  n - число
+IN
 POP ax
-PUSH 1
-POP bx ; bx - наше текущее произведение
+IN
+POP bx
+IN
+POP cx
 PUSH ax
 PUSH 0
-JB :negative
-CALL :factorial
+JE :linear_eq
 PUSH bx
-SHOW
-HLT
-:factorial 
-PUSH ax
-PUSH 2
-JB :vixod
-PUSH ax
 PUSH bx
-MUL
-POP bx
-PUSH ax
-PUSH 1
+MUL      ; b^2
+PUSH ax  
+PUSH cx
+MUL      ; a*c
+PUSH 4   
+MUL      ; 4 * a *c
 SUB
-POP ax
-CALL :factorial
-RET
-:vixod
-RET
-:negative
-PUSH -1
-POP bx
-PUSH bx
-SHOW
-HLT
+POP dx
+PUSH dx
+PUSH 0
+JB :no_roots
+PUSH dx
+PUSH 0
+JA :two_roots
+:linear_eq
+    PUSH 1
+    SHOW
+    PUSH cx
+    PUSH -1 
+    MUL
+    PUSH bx
+    DIV
+    SHOW
+    HLT
+:no_roots
+    PUSH 0
+    SHOW
+    HLT
+:two_roots
+    PUSH 2
+    SHOW
+    PUSH bx
+    PUSH -1 
+    MUL
+    PUSH dx
+    SQRT
+    SUB
+    PUSH 2
+    DIV
+    SHOW
+    PUSH bx
+    PUSH -1 
+    MUL
+    PUSH dx
+    SQRT
+    ADD
+    PUSH 2
+    DIV
+    SHOW
+    HLT

@@ -6,7 +6,7 @@
 #include "..\libr\Stack.h"
 
 
-const int Max_argc_cmd = 3 * 8;
+const int Max_argc_cmd = 3 * sizeof(double);
 
 enum errors_of_assembler
 {

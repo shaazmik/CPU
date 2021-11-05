@@ -31,14 +31,11 @@ int just_do_it(struct CPU* CPPU)
    return 0;
 }
 
-int print_vid_mem(type_array* RAM)
-{
-   
-}
-
 
 int main()
 {
+   system("mode con cols=100 lines=30");
+
    struct CPU CPPU = {};
 
    stack_constructor( &(CPPU.stk), Size_of_stack);

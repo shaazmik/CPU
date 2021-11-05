@@ -3,8 +3,12 @@
 
 #include "..\libr\Stack.h"
 #include "..\enum.h"
+#include "windows.h"
 
 const int Max_memory = 4000;
+const int lines_in_cadr = 30; 
+const int len_line_cadr = 100;
+const double Cadr_time = 71;
 
 struct CPU
 {

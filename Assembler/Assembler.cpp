@@ -130,7 +130,7 @@ int compilation(struct Text* text_struct, struct asm_file* machine)
 
 int main()
 {
-    FILE* cmd = fopen("../commands.txt", "rb");
+    FILE* cmd = fopen("../play_video.txt", "rb");
 
     if (cmd == nullptr) 
     {

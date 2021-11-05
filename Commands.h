@@ -486,6 +486,33 @@ DEF_CMD_(0x6A, RET, 0,
 }
 )
 
+DEF_CMD_(0x7F, PRINT_CADR, 0,
+{
+    char cadr[(len_line_cadr + 1) * lines_in_cadr] = {};                   //  101 * 30 3030
+
+    int i_mem = 0;
+
+    for (int y = 0; y < lines_in_cadr; y++)
+    {
+        for (int x = 0; x < len_line_cadr; x++)
+        {
+            cadr[i_mem++] = CPPU->RAM[y * (len_line_cadr) + x] ? '$' : ' ' ; // ****\n   
+        }
+
+        cadr[i_mem++] = '\n';
+    }
+
+
+    cadr[i_mem - 1] = '\0';
+
+    puts(cadr);
+
+    Sleep(Cadr_time);
+
+    ip++;
+}
+)
+
 DEF_CMD_(0x0F, HLT, 0, 
 {
     printf("The program is completed\n\n.");
